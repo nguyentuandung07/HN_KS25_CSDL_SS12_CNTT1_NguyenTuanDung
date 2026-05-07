@@ -133,21 +133,9 @@ END
 
 CALL GetTopScoreStudent("DB201");
 
--- Câu 6: Quản lý việc cập nhật điểm cho môn Database Systems (C00001) theo các quy tắc sau:
--- Chỉ cho phép cập nhật điểm cho sinh viên thuộc khoa IT.
--- Nếu điểm mới truyền vào > 10 → tự động gán lại = 10.
--- Việc cập nhật phải thực hiện thông qua Stored Procedure.
--- Dữ liệu cập nhật phải đảm bảo không vi phạm điều kiện của View.
--- Yêu cầu thực hiện:
--- a) Tạo VIEW: Tạo View ViewITEnrollmentDB hiển thị các sinh viên thuộc khoa IT đăng ký môn C00001. View phải có ràng buộc WITH CHECK OPTION.
--- b) Viết Stored Procedure: Tạo thủ tục UpdateScoreITDB với các tham số:
--- IN varStudentID VARCHAR(6)
--- INOUT inoutNewScore DECIMAL(4,2)
--- Xử lý: Nếu inoutNewScore > 10 → gán lại = 10. Thực hiện cập nhật điểm thông qua View ViewITEnrollmentDB.
--- c) GỌI THỦ TỤC: Viết lệnh CALL để kiểm tra thủ tục:
--- Khai báo biến session để nhận giá trị INOUT.
--- Gọi thủ tục để cập nhật điểm cho một sinh viên bất kỳ thuộc khoa IT.
--- Sau khi gọi: Hiển thị lại giá trị điểm mới và kiểm tra dữ liệu trong View ViewITEnrollmentDB.
+-- PHẦN C – GIỎI (3đ)
+-- Câu 6:
+-- a)
 CREATE VIEW ViewITEnrollmentDB AS (
     SELECT E.StudentID, E.CourseID, E.Score
     FROM Enrollment AS E
@@ -156,6 +144,7 @@ CREATE VIEW ViewITEnrollmentDB AS (
     WHERE D.DeptID = "IT" AND E.CourseID = "DB201"
 ) WITH CHECK OPTION;
 
+-- b)
 DELIMITER //
 CREATE PROCEDURE UpdateScoreITDB (
     IN varStudentID VARCHAR(6),
@@ -172,6 +161,7 @@ BEGIN
 END
 // DELIMITER;
 
+-- c) 
 SET @newScore = 12.5;
 CALL UpdateScoreITDB("S00001", @newScore);
 SELECT @newScore AS UpdatedScore;
